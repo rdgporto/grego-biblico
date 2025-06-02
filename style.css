@@ -1,0 +1,344 @@
+/* style.css */
+:root {
+    --font-family-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family-greek: "Cardo", var(--font-family-system); /* Cardo para Grego, fallback para sistema */
+
+    --bg-color: #f8f9fa; /* Cinza muito claro, quase branco */
+    --card-bg-color: #ffffff;
+    --text-color: #212529; /* Cinza escuro, quase preto */
+    --text-light-color: #6c757d; /* Cinza para texto secundário */
+    --primary-accent-color: #007aff; /* Azul Apple */
+    --primary-accent-hover-color: #005bb5;
+    --secondary-button-bg: #e9ecef;
+    --secondary-button-hover-bg: #ced4da;
+    --border-color: #dee2e6;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --shadow-stronger-color: rgba(0, 0, 0, 0.1);
+
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+
+    --spacing-xs: 0.25rem;   /* 4px */
+    --spacing-sm: 0.5rem;    /* 8px */
+    --spacing-md: 1rem;      /* 16px */
+    --spacing-lg: 1.5rem;    /* 24px */
+    --spacing-xl: 2rem;      /* 32px */
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%; /* Base para rems */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-family-system);
+    line-height: 1.65;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: var(--spacing-md);
+}
+
+.site-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-md) 0;
+}
+
+.site-header h1 {
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.site-header h2 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--text-light-color);
+}
+
+.study-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 700px; /* Um pouco mais largo para a tabela */
+    margin: 0 auto;
+}
+
+/* Estilos para controlar visibilidade das views */
+.view-inactive {
+    display: none !important; /* Usar !important com cautela, mas útil para estados de view */
+}
+.view-active {
+    display: block; /* Ou flex, grid, dependendo do container */
+    width: 100%; /* Garante que ocupe a largura */
+}
+#flashcardInterface.view-active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Flashcard */
+.flashcard-wrapper {
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flashcard {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    min-height: 220px;
+    width: 100%;
+    max-width: 500px; /* Limita largura do flashcard */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    margin-bottom: var(--spacing-lg);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.flashcard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px var(--shadow-stronger-color);
+}
+
+
+.flashcard-front, .flashcard-back {
+    width: 100%;
+}
+
+.greek-word {
+    font-family: var(--font-family-greek);
+    font-size: 3rem;
+    font-weight: 500;
+    color: var(--text-color); /* Cor principal do texto para o grego */
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.2;
+}
+
+.transliteration {
+    font-size: 1.1rem;
+    color: var(--text-light-color);
+    margin-bottom: var(--spacing-md);
+    font-style: italic;
+}
+
+.meaning {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.occurrences {
+    font-size: 0.9rem;
+    color: var(--text-light-color);
+}
+
+/* Botões */
+.btn {
+    font-family: var(--font-family-system);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    text-align: center;
+    min-width: 120px; /* Largura mínima para botões */
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background-color: var(--primary-accent-color);
+    color: white;
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+.btn-primary:hover {
+    background-color: var(--primary-accent-hover-color);
+    box-shadow: 0 4px 10px var(--shadow-stronger-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-button-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-button-hover-bg);
+    border-color: #adb5bd;
+}
+.btn-secondary:disabled {
+    background-color: #f8f9fa;
+    color: #adb5bd;
+    border-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+
+.navigation-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 400px; /* Limita largura da navegação */
+    margin-bottom: var(--spacing-lg);
+}
+
+.word-counter {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-light-color);
+    margin: 0 var(--spacing-md);
+    flex-shrink: 0; /* Não encolher */
+}
+
+.options-controls {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    width: 100%;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap; /* Para telas menores */
+}
+
+/* Tabela de Vocabulário Completo */
+#fullVocabularyListContainer {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+    box-shadow: 0 4px 15px var(--shadow-color);
+    width: 100%;
+}
+
+#fullVocabularyListContainer h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-color);
+}
+
+.table-wrapper {
+    overflow-x: auto; /* Permite rolagem horizontal em telas pequenas */
+}
+
+#vocabularyTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+#vocabularyTable th,
+#vocabularyTable td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: top; /* Alinha no topo para significados longos */
+}
+
+#vocabularyTable th {
+    font-weight: 600;
+    background-color: #f8f9fa; /* Um fundo levemente diferente para o header */
+    color: var(--text-color);
+}
+#vocabularyTable th:first-child {
+    border-top-left-radius: var(--border-radius-sm);
+}
+#vocabularyTable th:last-child {
+    border-top-right-radius: var(--border-radius-sm);
+}
+
+
+#vocabularyTable tbody tr:nth-child(even) {
+    background-color: #fcfdff; /* Cor sutil para linhas pares */
+}
+
+#vocabularyTable tbody tr:hover {
+    background-color: #eef6ff; /* Cor de hover sutil */
+}
+
+#vocabularyTable .greek-cell {
+    font-family: var(--font-family-greek);
+    font-size: 1.1rem;
+    font-weight: 500;
+    min-width: 120px; /* Para evitar que a coluna grega fique muito espremida */
+}
+#vocabularyTable .translit-cell {
+    font-style: italic;
+    color: var(--text-light-color);
+    min-width: 120px;
+}
+/*#vocabularyTable .meaning-cell {
+    /* O significado pode ser longo 
+}*/
+
+
+.site-footer {
+    text-align: center;
+    padding: var(--spacing-lg) 0;
+    font-size: 0.9rem;
+    color: var(--text-light-color);
+    margin-top: auto; /* Empurra o footer para baixo */
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .site-header h1 {
+        font-size: 1.8rem;
+    }
+    .site-header h2 {
+        font-size: 1rem;
+    }
+    .greek-word {
+        font-size: 2.5rem;
+    }
+    .meaning {
+        font-size: 1.1rem;
+    }
+    .flashcard {
+        padding: var(--spacing-md) var(--spacing-lg);
+        min-height: 180px;
+    }
+    .btn {
+        font-size: 0.9rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    .navigation-controls {
+        max-width: 100%;
+    }
+    #fullVocabularyListContainer h3 {
+        font-size: 1.3rem;
+    }
+    #vocabularyTable {
+        font-size: 0.85rem;
+    }
+    #vocabularyTable th,
+    #vocabularyTable td {
+        padding: var(--spacing-sm);
+    }
+}
