@@ -1,5 +1,5 @@
 // data/licao20.js
-const vocabularioLicao20 = [
+export const vocabularioLicao20 = [
     {
         grego: "δίδωμι",
         transliteracao: "DÍ-do-mi",
@@ -106,6 +106,3 @@ const vocabularioLicao20 = [
         significado: "partíc.: onde, onde quer que"
     }
 ];
-
-// Torna a variável vocabularioLicao20 acessível globalmente
-window.vocabularioLicao20 = vocabularioLicao20;

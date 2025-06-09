@@ -1,5 +1,5 @@
 // script.js
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener async
     // --- Seletores do DOM ---
     const greekWordEl = document.querySelector('.greek-word');
     const transliterationEl = document.querySelector('.transliteration');
@@ -16,21 +16,88 @@ document.addEventListener('DOMContentLoaded', () => {
     const fullVocabularyTableBodyEl = document.getElementById('fullVocabularyTableBody');
     const flashcardInterfaceEl = document.getElementById('flashcardInterface');
     const currentYearEl = document.getElementById('currentYear');
+    const lessonTitleEl = document.getElementById('lessonTitle'); // Para atualizar o título da lição
 
     // --- Estado da Aplicação ---
     let currentWords = [];
-    // Carrega as palavras do vocabulário global (definido em data/licao20.js)
-    if (window.vocabularioLicao20 && Array.isArray(window.vocabularioLicao20)) {
-        currentWords = [...window.vocabularioLicao20]; // Cria uma cópia para permitir embaralhamento sem alterar o original
-    } else {
-        console.error("Vocabulário da Lição 20 não encontrado ou não é um array. Verifique data/licao20.js.");
-    }
-
     let currentIndex = 0;
     let isAnswerShown = false;
     let isFullListPopulated = false; // Controla se a lista completa já foi gerada no DOM
 
-    // --- Funções ---
+    // --- Funções de Inicialização e Carregamento de Dados ---
+    async function initializeApp() {
+        setDynamicYear();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const lessonId = urlParams.get('lesson');
+
+        if (!lessonId) {
+            displayErrorMessage("Nenhuma lição especificada. Por favor, <a href=\"index.html\">selecione uma lição no menu</a>.");
+            disableAllControls();
+            if (lessonTitleEl) lessonTitleEl.textContent = "Erro";
+            document.title = "Grego Bíblico - Erro";
+            return;
+        }
+
+        if (lessonTitleEl) lessonTitleEl.innerHTML = `Vocabulário da Lição ${lessonId} <br><a href="index.html">Voltar ao Menu</a>`;
+        document.title = `Grego Bíblico - Vocabulário Lição ${lessonId}`;
+
+        try {
+            const dataModule = await import(`./data/licao${lessonId}.js`);
+            const vocabularyData = dataModule[`vocabularioLicao${lessonId}`];
+
+            if (vocabularyData && Array.isArray(vocabularyData)) {
+                currentWords = [...vocabularyData];
+            } else {
+                throw new Error(`Dados do vocabulário para lição ${lessonId} não encontrados ou em formato inválido no módulo.`);
+            }
+        } catch (error) {
+            console.error(`Erro ao carregar dados da lição ${lessonId}:`, error);
+            displayErrorMessage(`Não foi possível carregar o vocabulário da Lição ${lessonId}. Verifique se a lição existe e <a href="index.html">tente novamente a partir do menu</a>.`);
+            disableAllControls();
+            return;
+        }
+
+        if (currentWords.length > 0) {
+            flashcardInterfaceEl.classList.add('view-active');
+            flashcardInterfaceEl.classList.remove('view-inactive');
+            flashcardInterfaceEl.hidden = false;
+            shuffleBtn.disabled = false;
+            toggleFullListBtn.disabled = false;
+            loadWord();
+        } else {
+            console.warn(`Nenhum vocabulário carregado para a Lição ${lessonId} (lição vazia).`);
+            displayNoWordsMessage(); // Trata o caso de lição vazia
+            shuffleBtn.disabled = true;
+            toggleFullListBtn.disabled = true;
+        }
+    }
+
+    function displayErrorMessage(htmlMessage) {
+        if (greekWordEl) greekWordEl.textContent = 'Erro';
+        if (transliterationEl) transliterationEl.innerHTML = htmlMessage; // Usar innerHTML para o link
+        if (meaningEl) meaningEl.textContent = '';
+        if (occurrencesEl) occurrencesEl.hidden = true;
+        if (wordCounterEl) wordCounterEl.textContent = "0 / 0";
+
+        flashcardInterfaceEl.classList.add('view-inactive');
+        flashcardInterfaceEl.classList.remove('view-active');
+        flashcardInterfaceEl.hidden = true;
+        
+        fullVocabularyListContainerEl.classList.add('view-inactive');
+        fullVocabularyListContainerEl.classList.remove('view-active');
+        fullVocabularyListContainerEl.hidden = true;
+    }
+
+    function disableAllControls() {
+        toggleAnswerBtn.disabled = true;
+        prevWordBtn.disabled = true;
+        nextWordBtn.disabled = true;
+        shuffleBtn.disabled = true;
+        toggleFullListBtn.disabled = true;
+    }
+
+    // --- Funções de Manipulação do Flashcard e Lista (a maioria permanece igual) ---
 
     /**
      * Carrega e exibe a palavra atual no flashcard.
@@ -38,6 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadWord() {
         if (currentWords.length === 0) {
             displayNoWordsMessage();
+            // Garante que os botões de navegação e resposta estejam desabilitados
+            // se por algum motivo esta função for chamada com currentWords vazio
+            // após a inicialização.
+            updateNavigationButtons();
+            shuffleBtn.disabled = true;
+            toggleFullListBtn.disabled = true;
             return;
         }
         const wordData = currentWords[currentIndex];
@@ -60,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Mostra a resposta (significado) no flashcard.
      */
     function showAnswer() {
+        if (currentWords.length === 0) return;
         flashcardBackEl.hidden = false;
         toggleAnswerBtn.textContent = 'Esconder Significado';
         isAnswerShown = true;
@@ -78,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Alterna a visibilidade da resposta no flashcard.
      */
     function toggleAnswer() {
+        if (currentWords.length === 0) return;
         if (isAnswerShown) {
             hideAnswer();
         } else {
@@ -120,9 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
      * Habilita/desabilita botões de navegação conforme necessário.
      */
     function updateNavigationButtons() {
-        prevWordBtn.disabled = currentIndex === 0;
+        prevWordBtn.disabled = currentIndex === 0 || currentWords.length === 0;
         nextWordBtn.disabled = currentIndex === currentWords.length - 1 || currentWords.length === 0;
-        toggleAnswerBtn.disabled = currentWords.length === 0;
+        toggleAnswerBtn.disabled = currentWords.length === 0; // toggleAnswerBtn também depende de haver palavras
     }
 
     /**
@@ -148,13 +223,22 @@ document.addEventListener('DOMContentLoaded', () => {
      * Esconde a interface de flashcard.
      */
     function displayNoWordsMessage() {
-        greekWordEl.textContent = 'N/A'; // Placeholder no flashcard
-        transliterationEl.textContent = 'Nenhuma palavra carregada';
-        meaningEl.textContent = '';
-        // Esconde a interface principal de flashcards se não há palavras
+        if (greekWordEl) greekWordEl.textContent = 'N/A';
+        if (transliterationEl) transliterationEl.textContent = 'Nenhum vocabulário para esta lição.';
+        if (meaningEl) meaningEl.textContent = '';
+        if (occurrencesEl) occurrencesEl.hidden = true;
+        
         flashcardInterfaceEl.classList.add('view-inactive');
         flashcardInterfaceEl.classList.remove('view-active');
         flashcardInterfaceEl.hidden = true;
+
+        // Atualiza a lista completa para mostrar a mensagem também
+        if (fullVocabularyTableBodyEl) {
+            populateFullVocabularyList(); // Isso irá mostrar "Nenhum vocabulário para exibir"
+        }
+
+        updateWordCounter(); // Para mostrar 0/0
+        updateNavigationButtons(); // Desabilita botões de navegação/resposta
     }
 
     /**
@@ -189,8 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
             translitSpan.classList.add('table-transliteration');
             translitSpan.textContent = word.transliteracao;
 
-            wordDetailCell.appendChild(greekSpan);
-            wordDetailCell.appendChild(translitSpan); // Transliteração adicionada abaixo do grego na mesma célula
+            wordDetailCell.append(greekSpan, translitSpan);
 
             // Célula 2: Significado
             const meaningCell = row.insertCell();
@@ -204,6 +287,14 @@ document.addEventListener('DOMContentLoaded', () => {
      * Alterna a visibilidade entre a interface de flashcard e a lista completa de vocabulário.
      */
     function toggleFullVocabularyView() {
+        // Se não há palavras e o usuário tenta ver a lista,
+        // populateFullVocabularyList() (chamado se !isFullListPopulated)
+        // já mostrará a mensagem "Nenhum vocabulário para exibir."
+        if (currentWords.length === 0 && !fullVocabularyListContainerEl.classList.contains('view-active')) {
+             if (!isFullListPopulated) {
+                populateFullVocabularyList();
+            }
+        }
         const isListCurrentlyVisible = fullVocabularyListContainerEl.classList.contains('view-active');
 
         if (isListCurrentlyVisible) {
@@ -212,10 +303,15 @@ document.addEventListener('DOMContentLoaded', () => {
             fullVocabularyListContainerEl.classList.add('view-inactive');
             fullVocabularyListContainerEl.hidden = true; // Para acessibilidade
 
-            flashcardInterfaceEl.classList.remove('view-inactive');
-            flashcardInterfaceEl.classList.add('view-active');
-            flashcardInterfaceEl.hidden = false;
-
+            // Só mostra flashcards se houver palavras
+            if (currentWords.length > 0) {
+                flashcardInterfaceEl.classList.remove('view-inactive');
+                flashcardInterfaceEl.classList.add('view-active');
+                flashcardInterfaceEl.hidden = false;
+            } else { // Se não houver palavras, a interface de flashcard deve permanecer escondida
+                 flashcardInterfaceEl.classList.add('view-inactive');
+                 flashcardInterfaceEl.classList.remove('view-active');
+                 flashcardInterfaceEl.hidden = true;            }
             toggleFullListBtn.textContent = 'Ver Lista Completa';
         } else {
             // Mostrar lista completa, esconder flashcards
@@ -244,26 +340,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Event Listeners (Configuração dos gatilhos de interação) ---
-    toggleAnswerBtn.addEventListener('click', toggleAnswer);
-    nextWordBtn.addEventListener('click', nextWord);
-    prevWordBtn.addEventListener('click', prevWord);
-    shuffleBtn.addEventListener('click', shuffleWords);
-    toggleFullListBtn.addEventListener('click', toggleFullVocabularyView);
+    if (toggleAnswerBtn) toggleAnswerBtn.addEventListener('click', toggleAnswer);
+    if (nextWordBtn) nextWordBtn.addEventListener('click', nextWord);
+    if (prevWordBtn) prevWordBtn.addEventListener('click', prevWord);
+    if (shuffleBtn) shuffleBtn.addEventListener('click', shuffleWords);
+    if (toggleFullListBtn) toggleFullListBtn.addEventListener('click', toggleFullVocabularyView);
 
-    // --- Inicialização da Página ---
-    setDynamicYear(); // Define o ano no footer
+    // --- Inicialização da Aplicação ---
+    initializeApp();
 
-    if (currentWords.length > 0) {
-        flashcardInterfaceEl.classList.add('view-active'); // Garante que a interface de flashcard seja visível
-        flashcardInterfaceEl.classList.remove('view-inactive');
-        flashcardInterfaceEl.hidden = false;
-        loadWord(); // Carrega a primeira palavra
-    } else {
-        // Se não houver palavras, exibe a mensagem e desabilita botões que dependem delas
-        console.warn("Nenhum vocabulário carregado. Verifique o arquivo de dados.");
-        displayNoWordsMessage(); 
-        shuffleBtn.disabled = true;
-        toggleFullListBtn.disabled = true;
-        // Os botões de navegação e de resposta já são desabilitados por updateNavigationButtons via loadWord/displayNoWordsMessage
-    }
 });

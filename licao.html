@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página de estudo de vocabulário de Grego Bíblico.">
+    <title>Grego Bíblico - Vocabulário</title> <!-- O título será atualizado dinamicamente pelo JS -->
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+    <header class="site-header">
+        <h1>Grego Bíblico</h1>
+        <h2 id="lessonTitle">Vocabulário da Lição</h2> <!-- ID para JS atualizar o título da lição -->
+    </header>
+
+    <main class="study-container">
+        <div id="flashcardInterface" class="view-active">
+            <section class="flashcard-wrapper">
+                <div class="flashcard">
+                    <div class="flashcard-front">
+                        <p class="greek-word" lang="el">λέξη</p>
+                        <p class="transliteration">transliteração</p>
+                    </div>
+                    <div class="flashcard-back" hidden>
+                        <p class="meaning">significado</p>
+                        <p class="occurrences" title="Ocorrências no Novo Testamento"></p>
+                    </div>
+                </div>
+                <button id="toggleAnswerBtn" class="btn btn-primary">Revelar Significado</button>
+            </section>
+
+            <nav class="navigation-controls">
+                <button id="prevWordBtn" class="btn btn-secondary" title="Palavra Anterior" aria-label="Palavra Anterior">❮ Anterior</button>
+                <span id="wordCounter" class="word-counter">1 / N</span>
+                <button id="nextWordBtn" class="btn btn-secondary" title="Próxima Palavra" aria-label="Próxima Palavra">Próxima ❯</button>
+            </nav>
+        </div>
+
+        <section class="options-controls">
+            <button id="shuffleBtn" class="btn btn-secondary">Embaralhar</button>
+            <button id="toggleFullListBtn" class="btn btn-secondary">Ver Lista Completa</button>
+        </section>
+
+        <section id="fullVocabularyListContainer" class="view-inactive" hidden>
+            <h3>Vocabulário Completo da Lição</h3>
+            <div class="table-wrapper">
+                <table id="vocabularyTable">
+                    <thead>
+                        <tr>
+                            <th>Palavra</th>
+                            <th>Significado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fullVocabularyTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="currentYear">2025</span> Rodrigo Costa/Seminário. Estudo de Grego Bíblico.</p>
+        </footer>
+
+    <!-- Os dados da lição específica serão carregados dinamicamente pelo script.js -->
+    <script type="module" src="script.js"></script> <!-- Carregado como módulo ES6 -->
+</body>
+</html>

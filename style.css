@@ -316,6 +316,22 @@ body {
     margin-top: auto;
 }
 
+/* Ajuste no título da lição para o link "Voltar ao Menu" */
+#lessonTitle a {
+    font-size: 0.75em; /* Ligeiramente maior para melhor legibilidade */
+    font-weight: 400; /* Peso normal, explícito para clareza */
+    color: var(--primary-accent-color);
+    text-decoration: none;
+    display: block; /* Para ficar abaixo do título da lição */
+    margin-top: var(--spacing-sm); /* Mais respiro em relação ao título */
+    transition: color 0.2s ease; /* Transição suave para a mudança de cor */
+}
+#lessonTitle a:hover {
+    color: var(--primary-accent-hover-color); /* Escurece a cor no hover */
+    text-decoration: underline; /* Adiciona sublinhado no hover para clareza */
+}
+
+
 /* Responsividade */
 @media (max-width: 600px) {
     html {
