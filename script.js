@@ -1,15 +1,18 @@
 // script.js
 document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener async
     // --- Seletores do DOM ---
-    const greekWordEl = document.querySelector('.greek-word');
+    const greekWordEl = document.querySelector('.greek-word');    
     const transliterationEl = document.querySelector('.transliteration');
     const meaningEl = document.querySelector('.meaning');
     const occurrencesEl = document.querySelector('.occurrences');
     const flashcardBackEl = document.querySelector('.flashcard-back');
+
     const toggleAnswerBtn = document.getElementById('toggleAnswerBtn');
     const prevWordBtn = document.getElementById('prevWordBtn');
     const nextWordBtn = document.getElementById('nextWordBtn');
+
     const wordCounterEl = document.getElementById('wordCounter');
+
     const shuffleBtn = document.getElementById('shuffleBtn');
     const toggleFullListBtn = document.getElementById('toggleFullListBtn');
     const fullVocabularyListContainerEl = document.getElementById('fullVocabularyListContainer');
@@ -21,6 +24,10 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
     // --- Estado da Aplicação ---
     let currentWords = [];
     let currentIndex = 0;
+
+    let lessonTitle = "";
+
+
     let isAnswerShown = false;
     let isFullListPopulated = false; // Controla se a lista completa já foi gerada no DOM
 
@@ -31,20 +38,32 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
         const urlParams = new URLSearchParams(window.location.search);
         const lessonId = urlParams.get('lesson');
 
-        if (!lessonId) {
+      if (!lessonId) {
             displayErrorMessage("Nenhuma lição especificada. Por favor, <a href=\"index.html\">selecione uma lição no menu</a>.");
             disableAllControls();
             if (lessonTitleEl) lessonTitleEl.textContent = "Erro";
             document.title = "Grego Bíblico - Erro";
             return;
         }
+        
 
         if (lessonTitleEl) lessonTitleEl.innerHTML = `Vocabulário da Lição ${lessonId} <br><a href="index.html">Voltar ao Menu</a>`;
         document.title = `Grego Bíblico - Vocabulário Lição ${lessonId}`;
 
         try {
-            const dataModule = await import(`./data/licao${lessonId}.js`);
-            const vocabularyData = dataModule[`vocabularioLicao${lessonId}`];
+          let vocabularyData;
+          switch (lessonId) {
+              case '2':
+              case '3':
+              case '4':
+              case '5':
+              case '20':
+              case '21':
+              case '22':
+              case '23':
+                const dataModule = await import(`./data/licao${lessonId}.js`);
+                vocabularyData = dataModule[`vocabularioLicao${lessonId}`];
+                break;
 
             if (vocabularyData && Array.isArray(vocabularyData)) {
                 currentWords = [...vocabularyData];
@@ -103,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
      * Carrega e exibe a palavra atual no flashcard.
      */
     function loadWord() {
-        if (currentWords.length === 0) {
+      if (currentWords.length === 0) {
             displayNoWordsMessage();
             // Garante que os botões de navegação e resposta estejam desabilitados
             // se por algum motivo esta função for chamada com currentWords vazio
@@ -113,6 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
             toggleFullListBtn.disabled = true;
             return;
         }
+
         const wordData = currentWords[currentIndex];
         greekWordEl.textContent = wordData.grego;
         transliterationEl.textContent = wordData.transliteracao;
