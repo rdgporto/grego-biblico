@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
 
         try {
           let vocabularyData;
+          let dataModule;
           switch (lessonId) {
               case '2':
               case '3':
@@ -59,13 +60,14 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
               case '5':
               case '20':
               case '21':
-              case '22':
-              case '23':
-                const dataModule = await import(`./data/licao${lessonId}.js`);
+                dataModule = await import(`./data/licao${lessonId}.js`);
                 vocabularyData = dataModule[`vocabularioLicao${lessonId}`];
                 break;
+              default:
+                throw new Error(`Lição ${lessonId} não encontrada ou não implementada.`);
+          }
 
-            if (vocabularyData && Array.isArray(vocabularyData)) {
+          if (vocabularyData && Array.isArray(vocabularyData)) {
                 currentWords = [...vocabularyData];
             } else {
                 throw new Error(`Dados do vocabulário para lição ${lessonId} não encontrados ou em formato inválido no módulo.`);
