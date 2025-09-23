@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
           let vocabularyData;
           let dataModule;
           switch (lessonId) {
+              case '1':
               case '2':
               case '3':
               case '4':
