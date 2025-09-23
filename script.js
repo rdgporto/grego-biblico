@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', async () => { // Tornar o listener
               case '3':
               case '4':
               case '5':
+              case '6':
+              case '7':
               case '20':
               case '21':
                 dataModule = await import(`./data/licao${lessonId}.js`);
