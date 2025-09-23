@@ -15,7 +15,7 @@ export const vocabularioLicao2 = [
     {
         grego: "αὐτός, -ή, -ό",
         transliteracao: "au-TÓS, -é, -ó",
-        significado: "pron. pess. da 3ª pess. sg.: ele, ela; ele(a) mesmo(a); o(a) mesmo(a)",
+        significado: "pron. pess. da 3ª pess. sg.: ele / ela",
         ocorrencias: 5601
     },
     {
@@ -29,6 +29,12 @@ export const vocabularioLicao2 = [
         transliteracao: "ri-MÊIS",
         significado: "pron. pess. da 2ª pess. pl.: vós",
         ocorrencias: 1840
+    },
+    {
+        grego: "αὐτοί, -αί, -ά",
+        transliteracao: "au-TÓI, -ái, -á",
+        significado: "pron. pess. da 3ª pess. pl.: eles / elas"
+        // Ocorrências não listadas no livro para esta linha específica
     },
     {
         grego: "ἀκολουθέω",

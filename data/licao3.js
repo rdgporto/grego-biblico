@@ -2,7 +2,7 @@ const vocabularioLicao3 = [
     {
         grego: "ἔχω",
         transliteracao: "É-kho",
-        significado: "ter, segurar, possuir, estar",
+        significado: "ter, segurar, possuir; estar",
         ocorrencias: 711
     },
     {
@@ -14,104 +14,122 @@ const vocabularioLicao3 = [
     {
         grego: "πιστεύω",
         transliteracao: "pis-TÊU-o",
-        significado: "acreditar, confiar em, confiar a alguém",
-        ocorrencias: 248 // Ocorrências atualizadas para o verbo
+        significado: "crer; acreditar; confiar (em), confiar algo a alguém",
+        ocorrencias: 243
     },
     {
-        grego: "πλοῖον, -ου, τό",
-        transliteracao: "PLÓI-on, -u, tó",
-        significado: "barco, navio",
-        ocorrencias: 68
+        grego: "σῴζω",
+        transliteracao: "SÓ-dzo",
+        significado: "salvar; libertar; preservar; socorrer; livrar; curar",
+        ocorrencias: 107
     },
     {
-        grego: "σῶμα, -ατος, τό",
-        transliteracao: "SÓ-ma, -a-tos, tó",
-        significado: "corpo (físico ou espiritual)",
-        ocorrencias: 150
+        grego: "ὁ, ἡ, τό",
+        transliteracao: "rró, re, tó",
+        significado: "art. definido (m., f. e n.): o / a",
+        ocorrencias: 19904
     },
     {
-        grego: "φωνή, -ῆς, ἡ",
-        transliteracao: "fo-NÉ, -ês, re",
-        significado: "som, ruído, voz",
-        ocorrencias: 139
+        grego: "ζωή, -ῆς, ἡ",
+        transliteracao: "dzo-É, -ês, re",
+        significado: "vida (no sentido físico); vida (no sentido espiritual)",
+        ocorrencias: 135
+    },
+    {
+        grego: "θεός, -οῦ, ὁ",
+        transliteracao: "the-ÓS, -û, rró",
+        significado: "deus; Deus",
+        ocorrencias: 1318
     },
     {
         grego: "κόσμος, -ου, ὁ",
         transliteracao: "KÓS-mos, -u, rró",
-        significado: "mundo, universo, humanidade",
+        significado: "mundo; universo; humanidade",
         ocorrencias: 186
     },
     {
-        grego: "οἶδα",
-        transliteracao: "ÓI-da",
-        significado: "saber, conhecer (verbo defectivo)",
-        ocorrencias: 318
+        grego: "υἱός, -οῦ, ὁ",
+        transliteracao: "ri-ÓS, -û, rró",
+        significado: "filho; descendente",
+        ocorrencias: 379
     },
     {
-        grego: "εἴτε... εἴτε",
-        transliteracao: "ÊI-te... êi-te",
-        significado: "quer... quer, se... ou se",
+        grego: "αἰώνιος, -ον",
+        transliteracao: "ai-Ó-ni-os, -on",
+        significado: "eterno",
         ocorrencias: 70
     },
     {
-        grego: "ζάω, ζῶ",
-        transliteracao: "DZÁ-o, DZÓ",
-        significado: "viver, estar vivo",
-        ocorrencias: 142
+        grego: "πᾶς, πᾶσα, πᾶν",
+        transliteracao: "PÁS, PÁ-sa, PÁN",
+        significado: "todo, cada; inteiro",
+        ocorrencias: 1244
     },
     {
-        grego: "ἤ",
-        transliteracao: "É",
-        significado: "ou; do que (comparativo); certamente",
-        ocorrencias: 349
+        grego: "ὅς, ἥ, ὅ",
+        transliteracao: "rrós, ré, rró",
+        significado: "pron. rel.: que, o que, o qual / a qual, quem",
+        ocorrencias: 1365
     },
     {
-        grego: "ἤδη",
-        transliteracao: "É-de",
-        significado: "já, agora",
-        ocorrencias: 62
+        grego: "ἀλλά (ἀλλ᾽)",
+        transliteracao: "al-LÁ",
+        significado: "conj. adversativa: mas; todavia, porém; exceto",
+        ocorrencias: 638
+    },
+    {
+        grego: "γάρ",
+        transliteracao: "GÁR",
+        significado: "conj. causal, pospos.: pois, portanto; certamente",
+        ocorrencias: 1042
+    },
+    {
+        grego: "εἰ",
+        transliteracao: "EI",
+        significado: "partíc. condicional: se",
+        ocorrencias: 507
+    },
+    {
+        grego: "ἐάν",
+        transliteracao: "e-ÁN",
+        significado: "conj.: (< εἰ + ἄν): se, no caso de; após pron. rel. ou adv. equivale a ἄν",
+        ocorrencias: 351
     },
     {
         grego: "ἵνα",
         transliteracao: "HÍ-na",
-        significado: "conj. com subj.: a fim de que, para que, de modo que",
-        ocorrencias: 653
-    },
-    {
-        grego: "μή",
-        transliteracao: "MÉ",
-        significado: "adv. de negação; conj. com subj.: a fim de que não, para que não",
-        ocorrencias: 501
+        significado: "conj.: para que, a fim de que; de modo que",
+        ocorrencias: 663
     },
     {
         grego: "ὅπως",
         transliteracao: "HÓ-pos",
-        significado: "conj.: para que; adv.: como, da maneira que",
-        ocorrencias: 53 // Ocorrências atualizadas
+        significado: "conj.: para que, a fim de que; adv.: como",
+        ocorrencias: 53
     },
     {
-        grego: "οὐδείς, οὐδεμία, οὐδέν",
-        transliteracao: "u-DÊIS, u-de-MÍ-a, u-DÉN",
-        significado: "ninguém, nada, nenhum(a)",
-        ocorrencias: 234
+        grego: "οὖν",
+        transliteracao: "ÛN",
+        significado: "conj. pospos.: pois, portanto; então",
+        ocorrencias: 501
     },
     {
-        grego: "πληρόω",
-        transliteracao: "ple-RÓ-o",
-        significado: "cumprir, completar, encher",
+        grego: "μή",
+        transliteracao: "MÉ",
+        significado: "adv. de negação: não; como conj.: (para) que não; a fim de que não",
+        ocorrencias: 1043
+    },
+    {
+        grego: "οὔτε",
+        transliteracao: "Û-te",
+        significado: "adv.: e não; οὔτε... οὔτε... = nem... nem...",
         ocorrencias: 87
     },
     {
-        grego: "προσκυνέω",
-        transliteracao: "pros-ki-NÉ-o",
-        significado: "adorar",
-        ocorrencias: 60
-    },
-    {
-        grego: "ὥστε",
-        transliteracao: "HÓS-te",
-        significado: "adv.: assim; conj.: de modo que, de tal maneira que",
-        ocorrencias: 85
+        grego: "οὕτω(ς)",
+        transliteracao: "HÛ-to(s)",
+        significado: "adv.: assim, deste modo, desta forma, desta maneira; οὕτως ... ὥστε ≈ de tal maneira ... que",
+        ocorrencias: 208
     }
 ];
 
