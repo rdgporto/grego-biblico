@@ -1,5 +1,5 @@
 // data/licao02.js
-const vocabularioLicao2 = [
+export const vocabularioLicao2 = [
     {
         grego: "ἐγώ",
         transliteracao: "e-GÓ",
@@ -103,6 +103,3 @@ const vocabularioLicao2 = [
         ocorrencias: 9164
     }
 ];
-
-// Exporta o array como o padrão do módulo
-export default vocabularioLicao2;
